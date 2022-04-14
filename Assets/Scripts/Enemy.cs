@@ -28,8 +28,13 @@ public class Enemy : MonoBehaviour
     {
         if(other.tag == "Player")
         {
-            //access the script on the player and call the damage method
-            other.transform.GetComponent<Player>().Damage();
+            Player player = other.transform.GetComponent<Player>();
+
+            if(player != null)
+            {
+                player.Damage();
+            }
+
             Destroy(gameObject);
         }
 
