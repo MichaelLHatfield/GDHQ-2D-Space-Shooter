@@ -13,8 +13,7 @@ GameObject:
   - component: {fileID: 933979499607163215}
   - component: {fileID: 8323795944750208293}
   - component: {fileID: 5200689526616776866}
-  - component: {fileID: 6239507669607089122}
-  - component: {fileID: 6580515989781102430}
+  - component: {fileID: 2015918611953572664}
   m_Layer: 0
   m_Name: Triple_Shot_Powerup
   m_TagString: PowerUp
@@ -75,8 +74,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -480890303
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: ed6681d697652144a913093bf7ad1d43, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -149,7 +148,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 3
---- !u!95 &6239507669607089122
+  _powerupID: 0
+--- !u!95 &2015918611953572664
 Animator:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -159,7 +159,7 @@ Animator:
   m_GameObject: {fileID: 1140048957589290164}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 58a01d23c01074c84ae673c44b7f8519, type: 2}
+  m_Controller: {fileID: 9100000, guid: 8a3cad8430ad444cfb33469886636017, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -169,18 +169,3 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!111 &6580515989781102430
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1140048957589290164}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: c1927ca30a48f4ae7938d89a127bbe38, type: 2}
-  m_Animations: []
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
