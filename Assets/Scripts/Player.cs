@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-	[SerializeField] private float _speed = 3.5f;
-	private float _superSpeed = 7.0f;
+	[SerializeField] private float _speed = 5f;
+	private float _superSpeed = 10f;
 	private bool _superSpeedActive = false;
 	[SerializeField] private GameObject _laserPrefab;
 	[SerializeField] private GameObject _tripleshotPrefab;
+	[SerializeField] private GameObject _shieldsEffect;
 	[SerializeField] private float _fireRate = 0.15f;
 	private float _canFire = -1f;
 	[SerializeField] private int _lives = 3;
 	private SpawnManager _spawnManager;
-	[SerializeField] private bool _isTripleShotActive = false;
+	private bool _isTripleShotActive = false;
+	private bool _isShieldActive = false;
 	
 
     // Start is called before the first frame update
@@ -88,22 +90,31 @@ public class Player : MonoBehaviour
     
 	public void Damage()
     {
-		_lives = _lives -1;
-
-		if(_lives < 1)
-		{
-			_spawnManager.OnPlayerDeath();
-			Destroy(this.gameObject);
+		if(_isShieldActive == true)
+        {
+			_shieldsEffect.SetActive(false);
+			_isShieldActive = false;
         }
+        else
+        {
+			_lives = _lives - 1;
+
+			if (_lives < 1)
+			{
+				_spawnManager.OnPlayerDeath();
+				Destroy(this.gameObject);
+			}
+		}
+	
     }
     
 	public void TripleShotActive()
 	{
 		_isTripleShotActive = true;
-		StartCoroutine(TripleShotPowerDownRoutine());
+		StartCoroutine(TripleShotCoolDownRoutine());
 	}
 	
-	IEnumerator TripleShotPowerDownRoutine()
+	IEnumerator TripleShotCoolDownRoutine()
 	{
 		yield return new WaitForSeconds(5.0f);
 		_isTripleShotActive = false;
@@ -112,12 +123,18 @@ public class Player : MonoBehaviour
 	public void SpeedPowerupActive()
     {
 		_superSpeedActive = true;
-		StartCoroutine(SpeedPowerupPowerDownRoutine());
+		StartCoroutine(SpeedPowerupCoolDownRoutine());
     }
 
-	IEnumerator SpeedPowerupPowerDownRoutine()
+	IEnumerator SpeedPowerupCoolDownRoutine()
     {
 		yield return new WaitForSeconds(5.0f);
 		_superSpeedActive = false;
+    }
+
+	public void ActivateShields()
+    {
+		_isShieldActive = true;
+		_shieldsEffect.SetActive(true);
     }
 }

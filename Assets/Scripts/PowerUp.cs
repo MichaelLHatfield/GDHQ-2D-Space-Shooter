@@ -32,17 +32,20 @@ public class PowerUp : MonoBehaviour
 
 			if(player != null)
 			{
-				if(_powerupID == 0)
+				switch(_powerupID)
 				{
-					player.TripleShotActive();
-				}
-				else if(_powerupID == 1)
-				{
-					player.SpeedPowerupActive();
-				}
-				else if(_powerupID == 2)
-				{
-					//shield
+					case 0:
+						player.TripleShotActive();
+						break;
+					case 1:
+						player.SpeedPowerupActive();
+						break;
+					case 2:
+						player.ActivateShields();
+						break;
+					default:
+						Debug.Log("error in switch statemenet");
+						break;
 				}
 			}
 
