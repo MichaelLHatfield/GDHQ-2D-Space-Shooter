@@ -22,8 +22,8 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-	    transform.position = new Vector3(0, -3.5f, 0);
-	    _spawnManager = GameObject.Find("Spawn Manager").GetComponent<SpawnManager>();
+	    transform.position = new Vector3(0, -3, 0);
+	    _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
 		_uiManager = GameObject.Find("Canvas").GetComponent<UI_Manager>();
 	    
 	    if(_spawnManager == null)
