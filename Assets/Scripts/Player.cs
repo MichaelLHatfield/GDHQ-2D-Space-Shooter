@@ -10,6 +10,9 @@ public class Player : MonoBehaviour
 	[SerializeField] private GameObject _laserPrefab;
 	[SerializeField] private GameObject _tripleshotPrefab;
 	[SerializeField] private GameObject _shieldsEffect;
+	[SerializeField] private GameObject _rightDamage;
+	[SerializeField] private GameObject _leftDamage;
+	
 	[SerializeField] private float _fireRate = 0.15f;
 	private float _canFire = -1f;
 	[SerializeField] private int _lives = 3;
@@ -115,7 +118,17 @@ public class Player : MonoBehaviour
 
 				Destroy(this.gameObject);
 			}
-		}
+        }
+		
+	    if(_lives == 2)
+	    {
+	    	_rightDamage.SetActive(true);
+	    }
+	    
+	    if(_lives == 3)
+	    {
+	    	_leftDamage.SetActive(true);
+	    }
 	
     }
     
