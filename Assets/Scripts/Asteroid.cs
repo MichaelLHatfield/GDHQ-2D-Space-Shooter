@@ -6,6 +6,7 @@ public class Asteroid : MonoBehaviour
 {
     [SerializeField] private float _speed = 20.0f;
     [SerializeField] private GameObject _explosionPrefab;
+
     private SpawnManager _spawnManager;
 
     // Start is called before the first frame update
@@ -26,6 +27,7 @@ public class Asteroid : MonoBehaviour
         {
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
             Destroy(other.gameObject);
+            Destroy(GetComponent<Collider2D>());
             _spawnManager.StartSpawning();
             Destroy(this.gameObject, 2.0f);
         }

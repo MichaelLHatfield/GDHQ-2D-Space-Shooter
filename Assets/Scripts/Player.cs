@@ -12,6 +12,9 @@ public class Player : MonoBehaviour
 	[SerializeField] private GameObject _shieldsEffect;
 	[SerializeField] private GameObject _rightDamage;
 	[SerializeField] private GameObject _leftDamage;
+	[SerializeField] private GameObject _explosionPrefab;
+	[SerializeField] private AudioClip _laserSoundClip;
+	private AudioSource _audioSource;
 	
 	[SerializeField] private float _fireRate = 0.15f;
 	private float _canFire = -1f;
@@ -28,6 +31,7 @@ public class Player : MonoBehaviour
 	    transform.position = new Vector3(0, -3, 0);
 	    _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
 		_uiManager = GameObject.Find("Canvas").GetComponent<UI_Manager>();
+		_audioSource = GetComponent<AudioSource>();
 	    
 	    if(_spawnManager == null)
 	    {
@@ -37,6 +41,15 @@ public class Player : MonoBehaviour
 		if(_uiManager == null)
         {
 			Debug.LogError("UI Manager is NULL!");
+        }
+
+		if(_audioSource == null)
+        {
+			Debug.LogError("Audiosource on the player is NULL.");
+        }
+        else
+		{
+			_audioSource.clip = _laserSoundClip;
         }
     }
 
@@ -88,6 +101,7 @@ public class Player : MonoBehaviour
 	void FireLaser()
     {
 	    _canFire = Time.time + _fireRate;
+	    
 	    if(_isTripleShotActive == false)
 	    {
 	    	Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);
@@ -96,6 +110,9 @@ public class Player : MonoBehaviour
 	    {
 	    	Instantiate(_tripleshotPrefab, transform.position, Quaternion.identity);
 	    }
+
+		_audioSource.Play();
+	    
     }
     
 	public void Damage()
@@ -115,8 +132,8 @@ public class Player : MonoBehaviour
 			{
 				_spawnManager.OnPlayerDeath();
 				_uiManager.GameOverSequence();
-
-				Destroy(this.gameObject);
+				Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+				Destroy(this.gameObject, 0.5f);
 			}
         }
 		
@@ -125,7 +142,7 @@ public class Player : MonoBehaviour
 	    	_rightDamage.SetActive(true);
 	    }
 	    
-	    if(_lives == 3)
+	    if(_lives == 1)
 	    {
 	    	_leftDamage.SetActive(true);
 	    }
