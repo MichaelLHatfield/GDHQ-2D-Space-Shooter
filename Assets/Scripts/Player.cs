@@ -69,14 +69,21 @@ public class Player : MonoBehaviour
 		float horizontalInput = Input.GetAxis("Horizontal");
 		float verticalInput = Input.GetAxis("Vertical");
 
+		int boost = 1;
+
+        if (Input.GetKey(KeyCode.LeftShift))
+		{
+			boost = 3;
+		}
+
 		Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
 		if(_superSpeedActive == true)
         {
-			transform.Translate(direction * _superSpeed * Time.deltaTime);
+			transform.Translate(direction * _superSpeed * boost * Time.deltaTime);
 		}
 		else
 		{
-			transform.Translate(direction * _speed * Time.deltaTime);
+			transform.Translate(direction * _speed * boost * Time.deltaTime);
 		}
 
 		if (transform.position.y >= 0)
