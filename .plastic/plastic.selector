@@ -1,4 +1,0 @@
-repository "GDHQ-2D-Space-Shooter"
-  path "/"
-    br "/main"
-    co "/main"
