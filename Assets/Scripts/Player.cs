@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
 	[SerializeField] private GameObject _laserPrefab;
 	[SerializeField] private GameObject _tripleshotPrefab;
 	[SerializeField] private GameObject _shieldsEffect;
-	private SpriteRenderer _shieldAlpha;
+	private Material _shieldAlpha;
 	[SerializeField] private GameObject _rightDamage;
 	[SerializeField] private GameObject _leftDamage;
 	[SerializeField] private GameObject _explosionPrefab;
@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
 	[SerializeField] private float _fireRate = 0.15f;
 	private float _canFire = -1f;
 	[SerializeField] private int _lives = 3;
-	[SerializeField] private int _shieldStrength;
+	[SerializeField] private int _shieldStrength = 3;
  	private SpawnManager _spawnManager;
 	private bool _isTripleShotActive = false;
 	private bool _isShieldActive = false;
@@ -34,8 +34,7 @@ public class Player : MonoBehaviour
 	    _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
 		_uiManager = GameObject.Find("Canvas").GetComponent<UI_Manager>();
 	    _audioSource = GetComponent<AudioSource>();
-		
-	    _shieldAlpha = _shieldsEffect.GetComponent<SpriteRenderer>();
+	    _shieldAlpha = _shieldsEffect.GetComponent<Renderer>().material;
 	    
 	    if(_spawnManager == null)
 	    {
@@ -126,11 +125,31 @@ public class Player : MonoBehaviour
     }
     
 	public void Damage()
-    {
+	{
+		float alphaVal = 1.0f;
+		_shieldStrength = _shieldStrength - 1;
+
 		if(_isShieldActive == true)
-        {
-			_shieldsEffect.SetActive(false);
-			_isShieldActive = false;
+		{
+			//damge the shield instead of the player
+			//change alpha of shield effct to match state
+			if(_shieldStrength == 2)
+			{
+				alphaVal = 0.66f;
+			}
+			else if(_shieldStrength == 1)
+			{
+				alphaVal = 0.33f;
+			}
+			else if(_shieldStrength < 1)
+			{
+				_shieldsEffect.SetActive(false);
+				_isShieldActive = false;
+			}			
+			
+			Color oldColor = _shieldAlpha.color;
+			Color newColor = new Color(oldColor.r, oldColor.g, oldColor.b, alphaVal);
+			_shieldAlpha.SetColor("_Color", newColor);
         }
         else
         {
@@ -184,9 +203,15 @@ public class Player : MonoBehaviour
     }
 
 	public void ActivateShields()
-    {
+	{
+		//reset alpha to 1 before using shields again
+		Color oldColor = _shieldAlpha.color;
+		Color newColor = new Color(oldColor.r, oldColor.g, oldColor.b, 1.0f);
+		_shieldAlpha.SetColor("_Color", newColor);
+		
 		_isShieldActive = true;
 		_shieldsEffect.SetActive(true);
+		_shieldStrength = 3;
     }
 
 	public void AddToScore(int points)
