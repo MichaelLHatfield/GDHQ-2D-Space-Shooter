@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
 	private float _canFire = -1f;
 	[SerializeField] private int _lives = 3;
 	[SerializeField] private int _shieldStrength = 3;
+	[SerializeField] private int _ammoCount = 15;
  	private SpawnManager _spawnManager;
 	private bool _isTripleShotActive = false;
 	private bool _isShieldActive = false;
@@ -61,7 +62,7 @@ public class Player : MonoBehaviour
 	{
 		CalculateMovement();
 
-		if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
+		if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire && _ammoCount > 0)
 		{
 			FireLaser();
 		}
@@ -110,6 +111,8 @@ public class Player : MonoBehaviour
 	void FireLaser()
     {
 	    _canFire = Time.time + _fireRate;
+	    _ammoCount = _ammoCount - 1;
+	    
 	    
 	    if(_isTripleShotActive == false)
 	    {
@@ -120,6 +123,8 @@ public class Player : MonoBehaviour
 	    	Instantiate(_tripleshotPrefab, transform.position, Quaternion.identity);
 	    }
 
+	    _uiManager.UpdateAmmoCount(_ammoCount);
+	    
 		_audioSource.Play();
 	    
     }

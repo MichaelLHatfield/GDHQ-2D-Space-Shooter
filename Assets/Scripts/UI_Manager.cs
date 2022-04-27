@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,7 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class UI_Manager : MonoBehaviour
 {
-    [SerializeField] private Text _scoreText;
+	[SerializeField] private Text _scoreText;
+	[SerializeField] private Text _ammoCountText;
     [SerializeField] private Text _gameoverText;
     [SerializeField] private Text _restartText;
     [SerializeField] private Image _livesImage;
@@ -62,5 +63,22 @@ public class UI_Manager : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
     }
+    
+	public void UpdateAmmoCount(int ammoLeft)
+	{
+		_ammoCountText.text = "";
+		
+		if (ammoLeft < 1)
+		{
+			_ammoCountText.text = "";
+		}
+		else
+		{
+			for(int i = 0; i < ammoLeft; i++)
+			{
+				_ammoCountText.text = _ammoCountText.text + "I";
+			}
+		}
+	}
 
 }
