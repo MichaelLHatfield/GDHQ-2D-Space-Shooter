@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
 	[SerializeField] private GameObject _laserPrefab;
 	[SerializeField] private GameObject _tripleshotPrefab;
 	[SerializeField] private GameObject _shieldsEffect;
+	private SpriteRenderer _shieldAlpha;
 	[SerializeField] private GameObject _rightDamage;
 	[SerializeField] private GameObject _leftDamage;
 	[SerializeField] private GameObject _explosionPrefab;
@@ -19,7 +20,8 @@ public class Player : MonoBehaviour
 	[SerializeField] private float _fireRate = 0.15f;
 	private float _canFire = -1f;
 	[SerializeField] private int _lives = 3;
-	private SpawnManager _spawnManager;
+	[SerializeField] private int _shieldStrength;
+ 	private SpawnManager _spawnManager;
 	private bool _isTripleShotActive = false;
 	private bool _isShieldActive = false;
 	[SerializeField] private int _score;
@@ -31,7 +33,9 @@ public class Player : MonoBehaviour
 	    transform.position = new Vector3(0, -3, 0);
 	    _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
 		_uiManager = GameObject.Find("Canvas").GetComponent<UI_Manager>();
-		_audioSource = GetComponent<AudioSource>();
+	    _audioSource = GetComponent<AudioSource>();
+		
+	    _shieldAlpha = _shieldsEffect.GetComponent<SpriteRenderer>();
 	    
 	    if(_spawnManager == null)
 	    {
@@ -69,14 +73,20 @@ public class Player : MonoBehaviour
 		float horizontalInput = Input.GetAxis("Horizontal");
 		float verticalInput = Input.GetAxis("Vertical");
 
+		int boost = 1;
+		if(Input.GetKey(KeyCode.LeftShift))
+		{
+			boost = 2;
+		}
+		
 		Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
 		if(_superSpeedActive == true)
         {
-			transform.Translate(direction * _superSpeed * Time.deltaTime);
+			transform.Translate(direction * _superSpeed * boost* Time.deltaTime);
 		}
 		else
 		{
-			transform.Translate(direction * _speed * Time.deltaTime);
+			transform.Translate(direction * _speed * boost * Time.deltaTime);
 		}
 
 		if (transform.position.y >= 0)
