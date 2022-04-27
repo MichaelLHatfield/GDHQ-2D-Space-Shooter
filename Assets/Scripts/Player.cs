@@ -217,7 +217,13 @@ public class Player : MonoBehaviour
 		_isShieldActive = true;
 		_shieldsEffect.SetActive(true);
 		_shieldStrength = 3;
-    }
+	}
+    
+	public void AmmoPickedUp()
+	{
+		_ammoCount = 15;
+		_uiManager.UpdateAmmoCount(_ammoCount);
+	}
 
 	public void AddToScore(int points)
     {

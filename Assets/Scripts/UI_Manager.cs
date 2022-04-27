@@ -68,16 +68,9 @@ public class UI_Manager : MonoBehaviour
 	{
 		_ammoCountText.text = "";
 		
-		if (ammoLeft < 1)
+		for(int i = 0; i < ammoLeft; i++)
 		{
-			_ammoCountText.text = "";
-		}
-		else
-		{
-			for(int i = 0; i < ammoLeft; i++)
-			{
-				_ammoCountText.text = _ammoCountText.text + "I";
-			}
+			_ammoCountText.text = _ammoCountText.text + "I";
 		}
 	}
 
