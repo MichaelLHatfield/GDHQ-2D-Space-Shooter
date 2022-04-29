@@ -44,6 +44,9 @@ public class PowerUp : MonoBehaviour
 					case 3:
 						player.AmmoPickedUp();
 						break;
+					case 4:
+						player.HealthPackPickup();
+						break;
 					default:
 						Debug.Log("error in switch statemenet");
 						break;
