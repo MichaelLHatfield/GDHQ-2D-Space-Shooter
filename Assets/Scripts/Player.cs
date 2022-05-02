@@ -8,7 +8,10 @@ public class Player : MonoBehaviour
 	private float _superSpeed = 10f;
 	private bool _superSpeedActive = false;
 	[SerializeField] private GameObject _laserPrefab;
+	private bool _isTripleShotActive = false;
 	[SerializeField] private GameObject _tripleshotPrefab;
+	private bool _isPhotonBlastActive = false;
+	[SerializeField] private GameObject _photonBlastPrefab;
 	[SerializeField] private GameObject _shieldsEffect;
 	private Material _shieldAlpha;
 	[SerializeField] private GameObject _rightDamage;
@@ -23,7 +26,6 @@ public class Player : MonoBehaviour
 	[SerializeField] private int _shieldStrength = 3;
 	[SerializeField] private int _ammoCount = 15;
  	private SpawnManager _spawnManager;
-	private bool _isTripleShotActive = false;
 	private bool _isShieldActive = false;
 	[SerializeField] private int _score;
 	[SerializeField] private UI_Manager _uiManager;
@@ -114,13 +116,18 @@ public class Player : MonoBehaviour
 	    _ammoCount = _ammoCount - 1;
 	    
 	    
-	    if(_isTripleShotActive == false)
+	    if(_isTripleShotActive == true)
 	    {
-	    	Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);
+	    	Instantiate(_tripleshotPrefab, transform.position, Quaternion.identity);
+	    }
+	    else if(_isPhotonBlastActive == true)
+	    {
+		    Instantiate(_photonBlastPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);
+
 	    }
 	    else
 	    {
-	    	Instantiate(_tripleshotPrefab, transform.position, Quaternion.identity);
+	    	Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);
 	    }
 
 	    _uiManager.UpdateAmmoCount(_ammoCount);
@@ -193,6 +200,18 @@ public class Player : MonoBehaviour
 	{
 		yield return new WaitForSeconds(5.0f);
 		_isTripleShotActive = false;
+	}
+	
+	public void PhotonBlastActive()
+	{
+		_isPhotonBlastActive = true;
+		StartCoroutine(PhotonBlastCoolDownRoutine());
+	}
+	
+	IEnumerator PhotonBlastCoolDownRoutine()
+	{
+		yield return new WaitForSeconds(5.0f);
+		_isPhotonBlastActive = false;
 	}
 
 	public void SpeedPowerupActive()

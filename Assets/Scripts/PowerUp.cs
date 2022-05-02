@@ -47,6 +47,9 @@ public class PowerUp : MonoBehaviour
 					case 4:
 						player.HealthPackPickup();
 						break;
+					case 5:
+						player.PhotonBlastActive();
+						break;
 					default:
 						Debug.Log("error in switch statemenet");
 						break;

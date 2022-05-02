@@ -362,6 +362,7 @@ MonoBehaviour:
   - {fileID: 7269304695361285048, guid: df3d4c5ccf7e243599ed27d7fb0a3e48, type: 3}
   - {fileID: 5693928275214219334, guid: bb64c5d423da0450d8d6452eaa0691b7, type: 3}
   - {fileID: 1165104713451896806, guid: a871fa6ad6e634fc7a5fc46c9aa05f88, type: 3}
+  - {fileID: 609624884464523925, guid: 3fcd4c8e0f7994078a5510893c09b52e, type: 3}
   _powerupContainer: {fileID: 347993481}
 --- !u!4 &115820720
 Transform:
@@ -1556,6 +1557,7 @@ MonoBehaviour:
   _speed: 5
   _laserPrefab: {fileID: 2468198971620768767, guid: a56b9b4100b044eeea0e39d06a114537, type: 3}
   _tripleshotPrefab: {fileID: 67195933990840667, guid: a8b20291f0d314f0cbc7f3af2f599e64, type: 3}
+  _photonBlastPrefab: {fileID: 1389373633491009960, guid: 461c158d5e20a4e61bc36418e73de255, type: 3}
   _shieldsEffect: {fileID: 1653829024}
   _rightDamage: {fileID: 1619211135}
   _leftDamage: {fileID: 1727896623}
