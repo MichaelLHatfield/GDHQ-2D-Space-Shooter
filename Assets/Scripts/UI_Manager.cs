@@ -8,6 +8,7 @@ public class UI_Manager : MonoBehaviour
 {
 	[SerializeField] private Text _scoreText;
 	[SerializeField] private Text _ammoCountText;
+	[SerializeField] private Text _thrustFuelLeft;
     [SerializeField] private Text _gameoverText;
     [SerializeField] private Text _restartText;
     [SerializeField] private Image _livesImage;
@@ -71,6 +72,16 @@ public class UI_Manager : MonoBehaviour
 		for(int i = 0; i < ammoLeft; i++)
 		{
 			_ammoCountText.text = _ammoCountText.text + "I";
+		}
+	}
+	
+	public void UpdateThrustFuel(int fuelLeft)
+	{
+		_thrustFuelLeft.text = "";
+		
+		for(int i = 0; i < fuelLeft; i++)
+		{
+			_thrustFuelLeft.text = _thrustFuelLeft.text + "I";
 		}
 	}
 

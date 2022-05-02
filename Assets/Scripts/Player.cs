@@ -7,6 +7,10 @@ public class Player : MonoBehaviour
 	[SerializeField] private float _speed = 5f;
 	private float _superSpeed = 10f;
 	private bool _superSpeedActive = false;
+	[SerializeField] private int _thrust = 30;
+	[SerializeField] private int _maxThrust = 30;
+	private bool _okayToAddToThrust = true;
+	private bool _okayToSubtractThrust = true;
 	[SerializeField] private GameObject _laserPrefab;
 	private bool _isTripleShotActive = false;
 	[SerializeField] private GameObject _tripleshotPrefab;
@@ -68,6 +72,14 @@ public class Player : MonoBehaviour
 		{
 			FireLaser();
 		}
+		
+		if(_okayToAddToThrust == true && _thrust < _maxThrust)
+		{
+			_thrust = _thrust + 1;
+			_uiManager.UpdateThrustFuel(_thrust);
+			_okayToAddToThrust = false;
+			StartCoroutine(IncreaseThrusterFuel());
+		}
 	}
 
 	void CalculateMovement()
@@ -76,9 +88,21 @@ public class Player : MonoBehaviour
 		float verticalInput = Input.GetAxis("Vertical");
 
 		int boost = 1;
-		if(Input.GetKey(KeyCode.LeftShift))
+		
+		if(Input.GetKey(KeyCode.LeftShift) && _thrust > 0)
 		{
 			boost = 2;
+			if(_okayToSubtractThrust == true && _thrust > 0)
+			{
+				_thrust = _thrust -1;
+				if(_thrust < 0)
+				{
+					_thrust = 0;
+				}
+				_uiManager.UpdateThrustFuel(_thrust);
+				_okayToSubtractThrust = false;
+				StartCoroutine(DecreaseThrusterFuel());
+			}
 		}
 		
 		Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
@@ -274,4 +298,16 @@ public class Player : MonoBehaviour
 		_score = _score + points;
 		_uiManager.UpdateScoreText(_score);
     }
+    
+	IEnumerator DecreaseThrusterFuel()
+	{
+		yield return new WaitForSeconds(0.25f);
+		_okayToSubtractThrust = true;
+	}
+	
+	IEnumerator IncreaseThrusterFuel()
+	{
+		yield return new WaitForSeconds(2.0f);
+		_okayToAddToThrust = true;
+	}
 }
