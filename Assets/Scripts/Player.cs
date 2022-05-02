@@ -29,7 +29,8 @@ public class Player : MonoBehaviour
 	[SerializeField] private int _lives = 3;
 	[SerializeField] private int _shieldStrength = 3;
 	[SerializeField] private int _ammoCount = 15;
- 	private SpawnManager _spawnManager;
+	private SpawnManager _spawnManager;
+	private CameraShake _mainCamera;
 	private bool _isShieldActive = false;
 	[SerializeField] private int _score;
 	[SerializeField] private UI_Manager _uiManager;
@@ -39,7 +40,8 @@ public class Player : MonoBehaviour
     {
 	    transform.position = new Vector3(0, -3, 0);
 	    _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
-		_uiManager = GameObject.Find("Canvas").GetComponent<UI_Manager>();
+	    _uiManager = GameObject.Find("Canvas").GetComponent<UI_Manager>();
+	    _mainCamera = GameObject.Find("Main Camera").GetComponent<CameraShake>();
 	    _audioSource = GetComponent<AudioSource>();
 	    _shieldAlpha = _shieldsEffect.GetComponent<Renderer>().material;
 	    
@@ -60,7 +62,12 @@ public class Player : MonoBehaviour
         else
 		{
 			_audioSource.clip = _laserSoundClip;
-        }
+		}
+        
+	    if(_mainCamera == null)
+	    {
+	    	Debug.LogError("Main Camera is NULL in Player script!");
+	    }
     }
 
 	// Update is called once per frame
@@ -162,6 +169,7 @@ public class Player : MonoBehaviour
     
 	public void Damage()
 	{
+		_mainCamera.shakecamera();
 		float alphaVal = 1.0f;
 		_shieldStrength = _shieldStrength - 1;
 
