@@ -1658,7 +1658,9 @@ MonoBehaviour:
   _thrust: 10
   _maxThrust: 30
   _laserPrefab: {fileID: 2468198971620768767, guid: a56b9b4100b044eeea0e39d06a114537, type: 3}
+  _isTripleShotActive: 0
   _tripleshotPrefab: {fileID: 67195933990840667, guid: a8b20291f0d314f0cbc7f3af2f599e64, type: 3}
+  _isPhotonBlastActive: 0
   _photonBlastPrefab: {fileID: 1389373633491009960, guid: 461c158d5e20a4e61bc36418e73de255, type: 3}
   _shieldsEffect: {fileID: 1653829024}
   _rightDamage: {fileID: 1619211135}
@@ -1669,6 +1671,7 @@ MonoBehaviour:
   _lives: 3
   _shieldStrength: 3
   _ammoCount: 15
+  _isShieldActive: 0
   _score: 0
   _uiManager: {fileID: 20201401}
 --- !u!212 &1793466774

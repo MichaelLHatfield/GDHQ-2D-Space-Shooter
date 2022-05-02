@@ -12,9 +12,9 @@ public class Player : MonoBehaviour
 	private bool _okayToAddToThrust = true;
 	private bool _okayToSubtractThrust = true;
 	[SerializeField] private GameObject _laserPrefab;
-	private bool _isTripleShotActive = false;
+	[SerializeField] private bool _isTripleShotActive = false;
 	[SerializeField] private GameObject _tripleshotPrefab;
-	private bool _isPhotonBlastActive = false;
+	[SerializeField] private bool _isPhotonBlastActive = false;
 	[SerializeField] private GameObject _photonBlastPrefab;
 	[SerializeField] private GameObject _shieldsEffect;
 	private Material _shieldAlpha;
@@ -31,7 +31,7 @@ public class Player : MonoBehaviour
 	[SerializeField] private int _ammoCount = 15;
 	private SpawnManager _spawnManager;
 	private CameraShake _mainCamera;
-	private bool _isShieldActive = false;
+	[SerializeField] private bool _isShieldActive = false;
 	[SerializeField] private int _score;
 	[SerializeField] private UI_Manager _uiManager;
 
@@ -317,5 +317,17 @@ public class Player : MonoBehaviour
 	{
 		yield return new WaitForSeconds(2.0f);
 		_okayToAddToThrust = true;
+	}
+	
+	public void RandomEffect()
+	{
+		//picked up the bad powerup - do something bad here
+		_thrust = 0;
+		_uiManager.UpdateThrustFuel(_thrust);
+		_ammoCount = 0;
+		_uiManager.UpdateAmmoCount(_ammoCount);
+		_isPhotonBlastActive = false;
+		_isTripleShotActive = false;
+		_isShieldActive = false;
 	}
 }

@@ -50,6 +50,9 @@ public class PowerUp : MonoBehaviour
 					case 5:
 						player.PhotonBlastActive();
 						break;
+					case 6:
+						player.RandomEffect();
+						break;
 					default:
 						Debug.Log("error in switch statemenet");
 						break;
