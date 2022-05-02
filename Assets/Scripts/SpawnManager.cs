@@ -22,9 +22,23 @@ public class SpawnManager : MonoBehaviour
 		yield return new WaitForSeconds(5.0f);
 
 	    while (_stopSpawning == false)
-        {
-            Vector3 positionToSpawn = new Vector3(Random.Range(-8f, 8f), 7f, 0f);
-	        GameObject newEnemy = Instantiate(_enemyPrefab, positionToSpawn, Quaternion.identity);
+	    {
+		    int eRot = Random.Range(0,3);
+		    switch (eRot)
+		    {
+		        case 0:
+		        	eRot = -30;
+		        	break;
+		        case 1:
+		        	eRot = 30;
+		        	break;
+		        default:
+		        	eRot = 0;
+		        	break;
+		    }
+		    
+		    Vector3 positionToSpawn = new Vector3(Random.Range(-8f, 8f), 7f, 0f);
+		    GameObject newEnemy = Instantiate(_enemyPrefab, positionToSpawn, Quaternion.Euler(new Vector3(0, 0, eRot)));
 	        newEnemy.transform.parent = _enemyContainer.transform;
             
 		    yield return new WaitForSeconds(5.0f);
