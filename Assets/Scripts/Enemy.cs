@@ -5,8 +5,8 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private float _speed = 4.0f;
-    [SerializeField] private GameObject _laserPrefabs;
-    private Player _player;
+	[SerializeField] private GameObject _laserPrefabs;
+	private Player _player;
     private Animator _anim;
     [SerializeField] private AudioClip _explosionSoundClip;
     private AudioSource _audioSource;
