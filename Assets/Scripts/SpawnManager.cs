@@ -33,7 +33,7 @@ public class SpawnManager : MonoBehaviour
 		//	Debug.Log("List: " + i + "=" + _powerUpFrequencyList[i]);
 		//}
 
-		 //StartCoroutine(SpawnEnemyRoutine());
+		 StartCoroutine(SpawnEnemyRoutine());
 		 StartCoroutine(SpawnPowerUpRountine());
 	}
 

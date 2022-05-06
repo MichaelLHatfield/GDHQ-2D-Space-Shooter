@@ -6,6 +6,8 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] private float _speed = 4.0f;
 	[SerializeField] private GameObject _laserPrefabs;
+    [SerializeField] private GameObject _shieldsEffect;
+    private bool _isShieldActive = true;
 	private Player _player;
     private Animator _anim;
     [SerializeField] private AudioClip _explosionSoundClip;
@@ -78,36 +80,48 @@ public class Enemy : MonoBehaviour
 
 	private void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.tag == "Player")
+        if (_isShieldActive == true && (other.tag == "Laser" || other.tag == "Player"))
         {
-            Player player = other.transform.GetComponent<Player>();
-
-            if(player != null)
+            _isShieldActive = false;
+            _shieldsEffect.SetActive(false);
+            if (other.tag == "Laser")
             {
-                player.Damage();
+                Destroy(other.gameObject);
             }
-
-            _anim.SetTrigger("OnEnemyDeath");
-            _speed = 1;
-            _audioSource.Play();
-            Destroy(GetComponent<Collider2D>());
-            Destroy(gameObject, 2.8f);
         }
-
-        if(other.tag == "Laser")
-        {
-            Destroy(other.gameObject);
-
-            if(_player != null)
+        else
+        { 
+            if (other.tag == "Player")
             {
-                _player.AddToScore(10);
+                Player player = other.transform.GetComponent<Player>();
+
+                if (player != null)
+                {
+                    player.Damage();
+                }
+
+                _anim.SetTrigger("OnEnemyDeath");
+                _speed = 1;
+                _audioSource.Play();
+                Destroy(GetComponent<Collider2D>());
+                Destroy(gameObject, 2.8f);
             }
 
-            _anim.SetTrigger("OnEnemyDeath");
-            _speed = 1;
-            _audioSource.Play();
-            Destroy(GetComponent<Collider2D>());
-            Destroy(this.gameObject, 2.8f);
+            if (other.tag == "Laser")
+            {
+                Destroy(other.gameObject);
+
+                if (_player != null)
+                {
+                    _player.AddToScore(10);
+                }
+
+                _anim.SetTrigger("OnEnemyDeath");
+                _speed = 1;
+                _audioSource.Play();
+                Destroy(GetComponent<Collider2D>());
+                Destroy(this.gameObject, 2.8f);
+            }
         }
     }
 }
