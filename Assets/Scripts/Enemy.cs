@@ -10,7 +10,8 @@ public class Enemy : MonoBehaviour
     private Animator _anim;
     [SerializeField] private AudioClip _explosionSoundClip;
     private AudioSource _audioSource;
-
+	[SerializeField] private bool _enemyFireEnabled = false;
+	
     private float _fireRate = 3.0f;
     private float _canFire = -1.0f;
 
@@ -46,21 +47,23 @@ public class Enemy : MonoBehaviour
     {
         CalculateMovement();
 
-        if(Time.time > _canFire)
-        {
-            _fireRate = Random.Range(3.0f, 7.0f);
-	        _canFire = Time.time + _fireRate;
+	    if(_enemyFireEnabled == true)
+	    {
+		    if(Time.time > _canFire)
+		    {
+			    _fireRate = Random.Range(3.0f, 7.0f);
+			    _canFire = Time.time + _fireRate;
 	        
-	        GameObject enemyLaser = Instantiate(_laserPrefabs, transform.position, transform.rotation);
-            Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
+			    GameObject enemyLaser = Instantiate(_laserPrefabs, transform.position, transform.rotation);
+			    Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
 
-            for (int i = 0; i < lasers.Length; i++)
-            {
-                lasers[i].AssignType();
-            }
-        }
-
-    }
+			    for (int i = 0; i < lasers.Length; i++)
+			    {
+				    lasers[i].AssignType();
+			    }
+		    }	    	
+	    }
+     }
 
     void CalculateMovement()
     {
