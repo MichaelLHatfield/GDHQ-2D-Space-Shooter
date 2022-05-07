@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+	[SerializeField] private bool _isTesting = false;
 	[SerializeField] private float _speed = 5f;
 	private float _superSpeed = 10f;
 	private bool _superSpeedActive = false;
@@ -169,6 +170,8 @@ public class Player : MonoBehaviour
     
 	public void Damage()
 	{
+		if (_isTesting == true) { return; }
+
 		_mainCamera.shakecamera();
 		float alphaVal = 1.0f;
 		_shieldStrength = _shieldStrength - 1;

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SpawnManager : MonoBehaviour
 { 
@@ -14,6 +15,10 @@ public class SpawnManager : MonoBehaviour
 	[SerializeField] private int _spawnCount = 0;
 	private bool _stopSpawning = false;
 	private List<int> _powerUpFrequencyList = new List<int>();
+	[SerializeField] private Text _waveText;
+	[SerializeField] private GameObject _asteroid;
+	private int _waveNumber = 1;
+	private bool _playerIsDead = false;
 
     public void StartSpawning()
 	{
@@ -24,14 +29,9 @@ public class SpawnManager : MonoBehaviour
 		{
 			for(int k = 0; k < _powerupFrequencies[i]; k++)
 			{
-				_powerUpFrequencyList.Add(i);  //should look like 0,0,0,0,1,1,1,etc.
+				_powerUpFrequencyList.Add(i); 
 			}
 		}
-
-		//for( int i = 0; i < _powerUpFrequencyList.Count; i++)
-        //{
-		//	Debug.Log("List: " + i + "=" + _powerUpFrequencyList[i]);
-		//}
 
 		 StartCoroutine(SpawnEnemyRoutine());
 		 StartCoroutine(SpawnPowerUpRountine());
@@ -66,16 +66,48 @@ public class SpawnManager : MonoBehaviour
 		    if(_spawnCount > 10)
 		    {
 		    	_spawnCount = 0;
+				_stopSpawning = true;
 		    	positionToSpawn = new Vector3(Random.Range(-8f, 8f), 8f, 0f);
 			    newEnemy = Instantiate(_doomsDayEnemy, positionToSpawn, Quaternion.identity);
 			    newEnemy.transform.parent = _enemyContainer.transform;
 		    }
 		    
 		    yield return new WaitForSeconds(5.0f);
-		    
         }
-    }
-    
+
+		//kicked out so game over or wave completed??
+		if(_playerIsDead == false)
+        {
+			//wait a few seconds
+			yield return new WaitForSeconds(3.0f);
+
+			//remove any enemies from the game
+			foreach (Transform child in _enemyContainer.transform)
+			{
+				GameObject.Destroy(child.gameObject);
+			}
+			yield return new WaitForSeconds(2.0f);
+
+			//spawn the player an ammo and health pack just to be nice
+			Vector3 ammoPositionToSpawn = new Vector3(0, 7, 0);
+			GameObject freePowerup1 = Instantiate(_powerups[3], ammoPositionToSpawn, Quaternion.identity);
+			freePowerup1.transform.parent = _powerupContainer.transform;
+			//and health pack just to be nice
+			Vector3 healthPositionToSpawn = new Vector3(0, 8, 0);
+			GameObject freePowerup2 = Instantiate(_powerups[4], healthPositionToSpawn, Quaternion.identity);
+			freePowerup2.transform.parent = _powerupContainer.transform;
+
+
+			//start next wave
+			_waveNumber++;
+			_waveText.enabled = true;
+			_waveText.text = "Wave " + _waveNumber;
+			_spawnCount = 0;
+			Vector3 positionToSpawn = new Vector3(0f, 3f, 0f);
+			Instantiate(_asteroid, positionToSpawn, Quaternion.identity);
+		}
+	}
+
 	IEnumerator SpawnPowerUpRountine()
 	{
 		yield return new WaitForSeconds(5.0f);
@@ -97,5 +129,6 @@ public class SpawnManager : MonoBehaviour
 	public void OnPlayerDeath()
 	{
 		_stopSpawning = true;
+		_playerIsDead = true;
 	}
 }

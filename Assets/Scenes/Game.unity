@@ -222,6 +222,7 @@ RectTransform:
   - {fileID: 1680197683}
   - {fileID: 1012661978}
   - {fileID: 855569113}
+  - {fileID: 1659102149}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -371,6 +372,8 @@ MonoBehaviour:
   _powerupContainer: {fileID: 347993481}
   _doomsDayEnemy: {fileID: 6324619996014759840, guid: 250fceea19626402a86d2241b17abbbd, type: 3}
   _spawnCount: 0
+  _waveText: {fileID: 1659102150}
+  _asteroid: {fileID: 5054037640422291807, guid: 6503105cb80a944ca90ab50e8eb650a5, type: 3}
 --- !u!4 &115820720
 Transform:
   m_ObjectHideFlags: 0
@@ -1415,6 +1418,85 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1659102148
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1659102149}
+  - component: {fileID: 1659102151}
+  - component: {fileID: 1659102150}
+  m_Layer: 5
+  m_Name: WaveText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1659102149
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1659102148}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 20201400}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -106.87, y: -30}
+  m_SizeDelta: {x: 196.55, y: 55.4539}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1659102150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1659102148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 30
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 3
+    m_MaxSize: 48
+    m_Alignment: 1
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Wave 1
+--- !u!222 &1659102151
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1659102148}
+  m_CullTransparentMesh: 1
 --- !u!1 &1680197680
 GameObject:
   m_ObjectHideFlags: 0
@@ -1658,6 +1740,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fbb80222df5847ad89e09a6f968d9ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isTesting: 1
   _speed: 5
   _thrust: 10
   _maxThrust: 30
@@ -2119,25 +2202,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2118069484172858320, guid: 6503105cb80a944ca90ab50e8eb650a5, type: 3}
-      propertyPath: _explosionPrefab
-      value: 
-      objectReference: {fileID: 2227753742501085705, guid: 48c1677e8d1ba4dd6bb9ae7f29740064, type: 3}
-    - target: {fileID: 2118069484172858320, guid: 6503105cb80a944ca90ab50e8eb650a5, type: 3}
-      propertyPath: _explosionSoundClip
-      value: 
-      objectReference: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
     - target: {fileID: 4804488977152794187, guid: 6503105cb80a944ca90ab50e8eb650a5, type: 3}
       propertyPath: m_RootOrder
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4804488977152794187, guid: 6503105cb80a944ca90ab50e8eb650a5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.17
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4804488977152794187, guid: 6503105cb80a944ca90ab50e8eb650a5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.38
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4804488977152794187, guid: 6503105cb80a944ca90ab50e8eb650a5, type: 3}
       propertyPath: m_LocalPosition.z
