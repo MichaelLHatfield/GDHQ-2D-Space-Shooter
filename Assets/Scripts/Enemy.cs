@@ -1,11 +1,14 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private float _speed = 4.0f;
 	[SerializeField] private GameObject _laserPrefabs;
+    [SerializeField] private GameObject _playersShip;
 	private Player _player;
     private Animator _anim;
     [SerializeField] private AudioClip _explosionSoundClip;
@@ -16,6 +19,8 @@ public class Enemy : MonoBehaviour
     private float _canFire = -1.0f;
     private static readonly int OnEnemyDeath = Animator.StringToHash("OnEnemyDeath");
 
+    private bool _isStalkingPlayer;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -66,12 +71,25 @@ public class Enemy : MonoBehaviour
 
     void CalculateMovement()
     {
-        transform.Translate(Vector3.down * (_speed * Time.deltaTime));
-
-        if (transform.position.y < -6f)
+        if (_isStalkingPlayer == false)
         {
-            float randomX = Random.Range(-9.0f, 9.0f);
-            transform.position = new Vector3(randomX, 9.0f, 0.0f);
+            transform.Translate(Vector3.down * (_speed * Time.deltaTime));
+
+            if (transform.position.y < -6f)
+            {
+                float randomX = Random.Range(-9.0f, 9.0f);
+                transform.position = new Vector3(randomX, 9.0f, 0.0f);
+            }
+        }
+        else
+        {
+            transform.position = Vector3.MoveTowards(transform.position, _player.transform.position, 
+                              _speed * Time.deltaTime);          
+            
+            Vector3 vectorToTarget = _player.transform.position - transform.position;
+            float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg + 90;
+            Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
+            transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * _speed);
         }
     }
 
@@ -102,5 +120,14 @@ public class Enemy : MonoBehaviour
         }
 
         transform.Rotate(0f, 0f, eRot);
+    }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            _isStalkingPlayer = true;
+            _speed = 2.0f;
+        }
     }
 }
