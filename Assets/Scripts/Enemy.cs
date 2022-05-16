@@ -6,8 +6,6 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] private float _speed = 4.0f;
 	[SerializeField] private GameObject _laserPrefabs;
-    [SerializeField] private GameObject _shieldsEffect;
-    private bool _isShieldActive = true;
 	private Player _player;
     private Animator _anim;
     [SerializeField] private AudioClip _explosionSoundClip;
@@ -16,6 +14,7 @@ public class Enemy : MonoBehaviour
 	
     private float _fireRate = 3.0f;
     private float _canFire = -1.0f;
+    private static readonly int OnEnemyDeath = Animator.StringToHash("OnEnemyDeath");
 
     // Start is called before the first frame update
     void Start()
@@ -49,27 +48,25 @@ public class Enemy : MonoBehaviour
     {
         CalculateMovement();
 
-	    if(_enemyFireEnabled == true)
-	    {
-		    if(Time.time > _canFire)
-		    {
-			    _fireRate = Random.Range(3.0f, 7.0f);
-			    _canFire = Time.time + _fireRate;
-	        
-			    GameObject enemyLaser = Instantiate(_laserPrefabs, transform.position, transform.rotation);
-			    Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
+        if (_enemyFireEnabled != true) return;
 
-			    for (int i = 0; i < lasers.Length; i++)
-			    {
-				    lasers[i].AssignType();
-			    }
-		    }	    	
-	    }
-     }
+        if (!(Time.time > _canFire)) return;
+        
+        _fireRate = Random.Range(3.0f, 7.0f);
+        _canFire = Time.time + _fireRate;
+	        
+        GameObject enemyLaser = Instantiate(_laserPrefabs, transform.position, transform.rotation);
+        Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
+
+        foreach (var t in lasers)
+        {
+            t.AssignType();
+        }
+    }
 
     void CalculateMovement()
     {
-        transform.Translate(Vector3.down * _speed * Time.deltaTime);
+        transform.Translate(Vector3.down * (_speed * Time.deltaTime));
 
         if (transform.position.y < -6f)
         {
@@ -78,50 +75,32 @@ public class Enemy : MonoBehaviour
         }
     }
 
-	private void OnTriggerEnter2D(Collider2D other)
+    public void EnemyDeath()
     {
-        if (_isShieldActive == true && (other.tag == "Laser" || other.tag == "Player"))
+        _speed = 0f;
+        _anim.SetTrigger(OnEnemyDeath);
+        _audioSource.Play();
+        Destroy(GetComponent<Collider2D>());
+        Destroy(gameObject, 2.8f);
+    }
+
+    public void AvoidLaser()
+    {
+        //random swerve to try to avoid laser
+        var eRot = Random.Range(0,2);
+        switch (eRot)
         {
-            _isShieldActive = false;
-            _shieldsEffect.SetActive(false);
-            if (other.tag == "Laser")
-            {
-                Destroy(other.gameObject);
-            }
+            case 0:
+                eRot = -30;
+                break;
+            case 1:
+                eRot = 30;
+                break;
+            default:
+                eRot = 0;
+                break;
         }
-        else
-        { 
-            if (other.tag == "Player")
-            {
-                Player player = other.transform.GetComponent<Player>();
 
-                if (player != null)
-                {
-                    player.Damage();
-                }
-
-                _anim.SetTrigger("OnEnemyDeath");
-                _speed = 1;
-                _audioSource.Play();
-                Destroy(GetComponent<Collider2D>());
-                Destroy(gameObject, 2.8f);
-            }
-
-            if (other.tag == "Laser")
-            {
-                Destroy(other.gameObject);
-
-                if (_player != null)
-                {
-                    _player.AddToScore(10);
-                }
-
-                _anim.SetTrigger("OnEnemyDeath");
-                _speed = 1;
-                _audioSource.Play();
-                Destroy(GetComponent<Collider2D>());
-                Destroy(this.gameObject, 2.8f);
-            }
-        }
+        transform.Rotate(0f, 0f, eRot);
     }
 }

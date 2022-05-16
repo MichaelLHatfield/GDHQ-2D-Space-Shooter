@@ -33,8 +33,8 @@ public class SpawnManager : MonoBehaviour
 			}
 		}
 
-		 StartCoroutine(SpawnEnemyRoutine());
-		 StartCoroutine(SpawnPowerUpRountine());
+        StartCoroutine(SpawnEnemyRoutine());
+        StartCoroutine(SpawnPowerUpRountine());
 	}
 
     IEnumerator SpawnEnemyRoutine()
@@ -43,7 +43,7 @@ public class SpawnManager : MonoBehaviour
 
 	    while (_stopSpawning == false)
 	    {
-		    int eRot = Random.Range(0,3);
+		    var eRot = Random.Range(0,3);
 		    switch (eRot)
 		    {
 		        case 0:

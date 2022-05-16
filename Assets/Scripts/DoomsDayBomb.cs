@@ -47,7 +47,7 @@ public class DoomsDayBomb : MonoBehaviour
 	{
 		Player player = other.transform.GetComponent<Player>();
 
-		if(other.tag == "Player" && player != null)
+		if(other.CompareTag("Player") && player != null)
 		{
 			//detonate weapon
 			Instantiate(_babyBombPrefabs, transform.position, Quaternion.Euler(new Vector3(0, 0, 60)));
