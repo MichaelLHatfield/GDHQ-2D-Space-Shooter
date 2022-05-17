@@ -337,7 +337,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 5
+  m_Radius: 4
 --- !u!114 &7704223580343416909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -403,6 +403,8 @@ MonoBehaviour:
   _speed: 3
   _laserPrefabs: {fileID: 138532512333239532, guid: 1272d76661f8c404da76e55ad458310c, type: 3}
   _playersShip: {fileID: 0}
+  _radarCollider: {fileID: 7281173863708524672}
+  _hitBoxCollider: {fileID: 2149123903669507708}
   _explosionSoundClip: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
   _enemyFireEnabled: 0
 --- !u!212 &3942533768190127916

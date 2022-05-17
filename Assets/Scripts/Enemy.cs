@@ -9,6 +9,9 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _speed = 4.0f;
 	[SerializeField] private GameObject _laserPrefabs;
     [SerializeField] private GameObject _playersShip;
+    [SerializeField] private GameObject _radarCollider;
+    [SerializeField] private GameObject _hitBoxCollider;
+
 	private Player _player;
     private Animator _anim;
     [SerializeField] private AudioClip _explosionSoundClip;
@@ -46,6 +49,7 @@ public class Enemy : MonoBehaviour
             _audioSource.clip = _explosionSoundClip;
         }
 
+        StartCoroutine(ResetEnemyDirection());
     }
 
     // Update is called once per frame
@@ -83,8 +87,7 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            transform.position = Vector3.MoveTowards(transform.position, _player.transform.position, 
-                              _speed * Time.deltaTime);          
+            transform.position = Vector3.MoveTowards(transform.position, _player.transform.position, _speed * Time.deltaTime);          
             
             Vector3 vectorToTarget = _player.transform.position - transform.position;
             float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg + 90;
@@ -93,13 +96,26 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    IEnumerator ResetEnemyDirection()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(5.0f);
+            //this fixes (hopefully) the times when the enemy is dodging shots and gets rotated too far
+            transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+        }
+        
+    }
+
     public void EnemyDeath()
     {
         _speed = 0f;
         _anim.SetTrigger(OnEnemyDeath);
         _audioSource.Play();
         Destroy(GetComponent<Collider2D>());
-        Destroy(gameObject, 2.8f);
+        Destroy(_radarCollider.gameObject);
+        Destroy(_hitBoxCollider.gameObject);
+        Destroy(this.gameObject, 2.8f);
     }
 
     public void AvoidLaser()
@@ -109,10 +125,10 @@ public class Enemy : MonoBehaviour
         switch (eRot)
         {
             case 0:
-                eRot = -30;
+                eRot = -45;
                 break;
             case 1:
-                eRot = 30;
+                eRot = 45;
                 break;
             default:
                 eRot = 0;
@@ -122,12 +138,22 @@ public class Enemy : MonoBehaviour
         transform.Rotate(0f, 0f, eRot);
     }
 
-    private void OnTriggerStay2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
             _isStalkingPlayer = true;
             _speed = 2.0f;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            _isStalkingPlayer = false;
+            //reset rotation
+            transform.rotation = Quaternion.Euler(0f, 0f, 0f);
         }
     }
 }

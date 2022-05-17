@@ -33,6 +33,8 @@ public class SpawnManager : MonoBehaviour
 			}
 		}
 
+		_stopSpawning = false;
+
         StartCoroutine(SpawnEnemyRoutine());
         StartCoroutine(SpawnPowerUpRountine());
 	}
